@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TodoListPage from "@/view/components/page/TodoListPage.vue";
-import Modules from "@/injector";
+import Modules from "@/modules";
 
 export default defineComponent({
   name: "App",
@@ -13,7 +13,7 @@ export default defineComponent({
     TodoListPage
   },
   setup() {
-    new Modules().setup();
+    Modules.get().setup();
   }
 });
 </script>

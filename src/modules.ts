@@ -32,10 +32,14 @@ export class Keys {
 }
 
 export default class Modules {
-  constructor() {}
+  private static readonly instance: Modules = new Modules();
+  private constructor() {}
+
+  static get(): Modules {
+    return Modules.instance;
+  } 
   
   setup(): void {
-
     this.setupViewState();
     this.setupDriver();
     this.setupGateway();
