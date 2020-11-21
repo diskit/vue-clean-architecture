@@ -6,7 +6,7 @@
 <script lang="ts">
 import { defineComponent, inject, onBeforeMount, ref } from "vue";
 import TaskList from "@/view/components/molecules/TaskList.vue";
-import { Keys } from "@/injector";
+import { Keys } from "@/modules";
 
 export default defineComponent({
   name: "TodoList",
