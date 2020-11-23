@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TodoListPage from "@/view/components/page/TodoListPage.vue";
+import TodoListPage from "@/view/components/TodoListPage.vue";
 import Modules from "@/modules";
 
 export default defineComponent({
