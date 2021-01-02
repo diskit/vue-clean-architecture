@@ -1,4 +1,4 @@
-import { inject, InjectionKey, provide, reactive } from "vue";
+import { inject, InjectionKey, provide, reactive, getCurrentInstance } from "vue";
 import { TaskController } from "./controller/taskController";
 import { TaskStorage } from "./driver/taskStorage";
 import { TaskGateway } from "./gateway/taskGateway";
@@ -59,14 +59,14 @@ export default class Modules {
   private setupGateway() {
     provide(
       Keys.TaskGatewayKey,
-      new TaskGateway(inject(Keys.TaskStorageKey)!!)
+      new TaskGateway(this.get(Keys.TaskStorageKey)!!)
     );
   }
 
   private setupPresenter() {
     provide(
       Keys.TaskPresenterKey,
-      new TaskPresenter(inject(Keys.TaskViewStateKey)!!)
+      new TaskPresenter(this.get(Keys.TaskViewStateKey)!!)
     );
   }
 
@@ -74,8 +74,8 @@ export default class Modules {
     provide(
       Keys.TaskUseCaseKey,
       new TaskUseCase(
-        inject(Keys.TaskGatewayKey)!!,
-        inject(Keys.TaskPresenterKey)!!
+        this.get(Keys.TaskGatewayKey)!!,
+        this.get(Keys.TaskPresenterKey)!!
       )
     );
   }
@@ -83,8 +83,15 @@ export default class Modules {
   private setupController() {
     provide(
       Keys.TaskControllerKey,
-      new TaskController(inject(Keys.TaskUseCaseKey)!!)
+      new TaskController(this.get(Keys.TaskUseCaseKey)!!)
     );
+  }
+
+  // avoid self-injection
+  // https://github.com/vuejs/vue-next/issues/2400
+  private get<T>(key: InjectionKey<T>): T | undefined {
+    const vm = getCurrentInstance() as any;
+    return inject(key) || vm?.provides[key as any];
   }
 }
 
